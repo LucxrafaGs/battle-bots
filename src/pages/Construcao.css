@@ -736,12 +736,37 @@
   .gd,
   .dg,
   .cd {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .gd > *,
+  .dg > *,
+  .cd > * {
+    min-width: 0;
   }
   .gd-steps,
   .dg-list,
   .cd-list {
     position: static;
+  }
+  .dg-toolbar {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+  }
+  .dg-views,
+  .dg-tools {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .dg-views::-webkit-scrollbar,
+  .dg-tools::-webkit-scrollbar {
+    display: none;
+  }
+  .dg-view,
+  .dg-tool {
+    flex: none;
+    white-space: nowrap;
   }
   .gd-steps,
   .dg-list ul,

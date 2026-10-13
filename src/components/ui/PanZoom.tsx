@@ -161,8 +161,32 @@ const PanZoom = forwardRef<PanZoomHandle, Props>(function PanZoom({ src, alt, on
     return () => b.removeEventListener('wheel', onWheel);
   }, [zoomAt]);
 
+  const release = useCallback((id?: number) => {
+    if (id === undefined) pointers.current.clear();
+    else pointers.current.delete(id);
+    if (pointers.current.size < 2) pinch.current = null;
+    if (pointers.current.size === 0) setDragging(false);
+  }, []);
+
+  // Soltar o botão fora da área (ou perder o foco da janela) também encerra o arraste.
+  useEffect(() => {
+    if (!dragging) return;
+    const end = (e: PointerEvent) => release(e.pointerId);
+    const reset = () => release();
+    window.addEventListener('pointerup', end);
+    window.addEventListener('pointercancel', end);
+    window.addEventListener('blur', reset);
+    return () => {
+      window.removeEventListener('pointerup', end);
+      window.removeEventListener('pointercancel', end);
+      window.removeEventListener('blur', reset);
+    };
+  }, [dragging, release]);
+
   const onDown = (e: React.PointerEvent) => {
-    (e.target as Element).setPointerCapture?.(e.pointerId);
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    if (e.pointerType === 'mouse') e.preventDefault();
+    e.currentTarget.setPointerCapture?.(e.pointerId);
     pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
     if (pointers.current.size === 2) {
       const [a, c] = Array.from(pointers.current.values());
@@ -173,6 +197,10 @@ const PanZoom = forwardRef<PanZoomHandle, Props>(function PanZoom({ src, alt, on
   const onMove = (e: React.PointerEvent) => {
     const prev = pointers.current.get(e.pointerId);
     if (!prev) return;
+    if (e.pointerType === 'mouse' && e.buttons === 0) {
+      release(e.pointerId);
+      return;
+    }
     const next = { x: e.clientX, y: e.clientY };
     pointers.current.set(e.pointerId, next);
     const b = box.current!;
@@ -188,9 +216,8 @@ const PanZoom = forwardRef<PanZoomHandle, Props>(function PanZoom({ src, alt, on
     animateTo({ ...cur, x: cur.x + (next.x - prev.x), y: cur.y + (next.y - prev.y) }, true);
   };
   const onUp = (e: React.PointerEvent) => {
-    pointers.current.delete(e.pointerId);
-    if (pointers.current.size < 2) pinch.current = null;
-    if (pointers.current.size === 0) setDragging(false);
+    e.currentTarget.releasePointerCapture?.(e.pointerId);
+    release(e.pointerId);
   };
 
   return (
@@ -201,6 +228,8 @@ const PanZoom = forwardRef<PanZoomHandle, Props>(function PanZoom({ src, alt, on
       onPointerMove={onMove}
       onPointerUp={onUp}
       onPointerCancel={onUp}
+      onLostPointerCapture={(e) => release(e.pointerId)}
+      onDragStart={(e) => e.preventDefault()}
       onDoubleClick={(e) => {
         const r = box.current!.getBoundingClientRect();
         zoomAt(2, e.clientX - r.left, e.clientY - r.top);
