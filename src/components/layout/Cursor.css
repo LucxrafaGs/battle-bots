@@ -1,0 +1,61 @@
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: var(--z-cursor);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 200ms;
+}
+.cursor-dot.is-visible,
+.cursor-ring.is-visible {
+  opacity: 1;
+}
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  background: var(--c-orange);
+}
+.cursor-ring {
+  width: 30px;
+  height: 30px;
+  margin: -15px 0 0 -15px;
+  border: 1px solid rgba(245, 245, 245, 0.55);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  transition:
+    opacity 200ms,
+    background-color 260ms var(--ease-out),
+    border-color 260ms var(--ease-out);
+  mix-blend-mode: difference;
+}
+.cursor-ring.is-label {
+  background: var(--c-text);
+  border-color: transparent;
+  mix-blend-mode: normal;
+}
+.cursor-ring.is-hidden {
+  border-color: rgba(245, 245, 245, 0.25);
+}
+.cursor-ring.is-down {
+  border-color: var(--c-orange);
+}
+.cursor-label {
+  font-family: var(--f-body);
+  font-size: 4px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--c-bg);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 200ms;
+}
+.cursor-ring.is-label .cursor-label {
+  opacity: 1;
+}
+.cursor-ring.is-label + .cursor-dot {
+  opacity: 0;
+}

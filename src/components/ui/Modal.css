@@ -1,0 +1,113 @@
+.md {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: grid;
+  place-items: center;
+  padding: var(--gutter);
+}
+.md--side {
+  place-items: stretch end;
+  padding: 0;
+}
+.md-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.md-panel {
+  position: relative;
+  width: min(560px, 100%);
+  max-height: min(86vh, 860px);
+  display: flex;
+  flex-direction: column;
+  background: var(--c-surface);
+  box-shadow: inset 0 0 0 1px var(--c-border-soft);
+}
+.md-panel--wide {
+  width: min(760px, 100%);
+}
+.md--side .md-panel {
+  width: min(480px, 100vw);
+  max-height: none;
+  height: 100%;
+}
+.md-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 28px 28px 18px;
+}
+.md-title {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-stretch: 100%;
+}
+.md-close {
+  position: relative;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  margin: -6px -10px 0 0;
+}
+.md-close span::before,
+.md-close span::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: 50%;
+  height: 1.5px;
+  background: var(--c-text);
+  transition: transform 500ms var(--ease-out);
+}
+.md-close span::before {
+  transform: rotate(45deg);
+}
+.md-close span::after {
+  transform: rotate(-45deg);
+}
+.md-close:hover span::before {
+  transform: rotate(135deg);
+}
+.md-close:hover span::after {
+  transform: rotate(45deg);
+}
+.md-body {
+  flex: 1;
+  overflow: auto;
+  padding: 0 28px 24px;
+  overscroll-behavior: contain;
+}
+.md-foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 18px 28px 24px;
+  border-top: 1px solid var(--c-border-soft);
+}
+@media (max-width: 560px) {
+  .md {
+    padding: 0;
+    place-items: end stretch;
+  }
+  .md-panel {
+    width: 100%;
+    max-height: 92vh;
+  }
+  .md-head {
+    padding: 22px 18px 14px;
+  }
+  .md-body {
+    padding: 0 18px 20px;
+  }
+  .md-foot {
+    padding: 14px 18px calc(18px + env(safe-area-inset-bottom));
+  }
+  .md-foot .btn {
+    flex: 1;
+  }
+}

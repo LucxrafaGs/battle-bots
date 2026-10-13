@@ -1,0 +1,73 @@
+/* ==========================================================================
+   BATTLE BOTS — design tokens
+   ========================================================================== */
+
+:root {
+  /* Cor */
+  --c-bg: #080808;
+  --c-surface: #141414;
+  --c-elevated: #202020;
+  --c-border: #333333;
+  --c-border-soft: #232323;
+  --c-text: #f5f5f5;
+  --c-text-2: #929292;
+  --c-text-3: #5e5e5e;
+  --c-red: #ef3535;
+  --c-orange: #ff642f;
+  --c-red-dim: rgba(239, 53, 53, 0.14);
+  --c-orange-dim: rgba(255, 100, 47, 0.14);
+
+  /* Tipografia */
+  --f-display: 'Archivo Variable', 'Archivo', 'Arial Narrow', sans-serif;
+  --f-body: 'Instrument Sans Variable', 'Instrument Sans', system-ui, sans-serif;
+  --f-code: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Escala (razão ~1.333, ancorada em 16px) */
+  --t-xs: 0.75rem;
+  --t-sm: 0.875rem;
+  --t-base: 1rem;
+  --t-md: 1.125rem;
+  --t-lg: 1.5rem;
+  --t-xl: 2rem;
+  --t-2xl: clamp(2.25rem, 4vw, 3.5rem);
+  --t-3xl: clamp(3rem, 7vw, 6.5rem);
+  --t-mega: clamp(4.5rem, 17.5vw, 19rem);
+
+  /* Espaço */
+  --gutter: clamp(16px, 3.2vw, 48px);
+  --header-h: 76px;
+
+  /* Chanfro (corte em 45° — chapa usinada) */
+  --chamfer: 10px;
+  --chamfer-sm: 6px;
+
+  /* Movimento */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-snap: cubic-bezier(0.7, 0, 0.2, 1);
+  --d-fast: 220ms;
+  --d-med: 520ms;
+  --d-slow: 900ms;
+
+  /* Camadas */
+  --z-header: 50;
+  --z-menu: 60;
+  --z-modal: 80;
+  --z-transition: 90;
+  --z-loader: 100;
+  --z-cursor: 120;
+}
+
+@media (max-width: 720px) {
+  :root {
+    --header-h: 64px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --d-fast: 1ms;
+    --d-med: 1ms;
+    --d-slow: 1ms;
+  }
+}

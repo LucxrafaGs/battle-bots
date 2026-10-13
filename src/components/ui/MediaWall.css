@@ -1,0 +1,43 @@
+/* mural de fotos e vídeos */
+.wall {
+  columns: 4 260px;
+  column-gap: 12px;
+}
+.wall-item {
+  break-inside: avoid;
+  margin-bottom: 12px;
+}
+.wall-btn {
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  background: var(--c-surface);
+}
+.wall-btn img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 900ms var(--ease-out), filter 600ms;
+}
+.wall-btn:hover img {
+  transform: scale(1.04);
+}
+.wall-play {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: var(--c-red);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+  transition: transform 400ms var(--ease-out);
+}
+.wall-btn:hover .wall-play {
+  transform: scale(1.1);
+}
